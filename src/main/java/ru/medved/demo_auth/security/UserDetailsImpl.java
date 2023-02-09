@@ -4,19 +4,24 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import ru.medved.demo_auth.security.entity.User;
 
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserDetailsImpl implements UserDetails {
 
-    private static final long serialVersionUID = 1L;
-
     private Long id;
-    private String username;
+    private String login;
+    private String name;
     private String email;
 
     @JsonIgnore
@@ -24,26 +29,19 @@ public class UserDetailsImpl implements UserDetails {
 
     private Collection<? extends GrantedAuthority> authorities;
 
-    public UserDetailsImpl(Long id, String username, String email, String password,
-                           Collection<? extends GrantedAuthority> authorities) {
-        this.id = id;
-        this.username = username;
-        this.email = email;
-        this.password = password;
-        this.authorities = authorities;
-    }
-
-    public static UserDetailsImpl build(User user) {
+    public static UserDetailsImpl selfByUser(User user) {
         List<GrantedAuthority> authorities = user.getRoles().stream()
                 .map(role -> new SimpleGrantedAuthority(role.getName().name()))
                 .collect(Collectors.toList());
 
-        return new UserDetailsImpl(
-                user.getId(),
-                user.getName(),
-                user.getEmail(),
-                user.getPassword(),
-                authorities);
+        return UserDetailsImpl.builder()
+                .id(user.getId())
+                .login(user.getLogin())
+                .email(user.getEmail())
+                .name(user.getName())
+                .password(user.getPassword())
+                .authorities(authorities)
+                .build();
     }
 
     @Override
@@ -53,7 +51,7 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public String getUsername() {
-        return null;
+        return login;
     }
 
     @Override

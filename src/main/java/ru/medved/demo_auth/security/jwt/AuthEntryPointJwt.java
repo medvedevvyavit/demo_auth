@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
-public class AuthEntryPointJwt implements AuthenticationEntryPoint {
+public class AuthEntryPointJwt implements AuthenticationEntryPoint {// TODO: 09.02.2023 переделать на вменяемое
 
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response,

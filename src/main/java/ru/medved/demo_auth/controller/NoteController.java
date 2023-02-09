@@ -18,7 +18,7 @@ import ru.medved.demo_auth.dto.NoteDto;
 import ru.medved.demo_auth.service.NoteService;
 
 @RequiredArgsConstructor
-@RequestMapping("v1/notes")
+@RequestMapping("api/v1/notes")
 @RestController
 public class NoteController {
 

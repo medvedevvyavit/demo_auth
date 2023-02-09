@@ -3,6 +3,7 @@ package ru.medved.demo_auth.service.impl;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +11,7 @@ import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
 import org.springframework.stereotype.Service;
 import ru.medved.demo_auth.dto.NoteDto;
 import ru.medved.demo_auth.entity.NoteEntity;
+import ru.medved.demo_auth.enums.ColorNote;
 import ru.medved.demo_auth.mapper.NoteMapper;
 import ru.medved.demo_auth.repository.NoteRepository;
 import ru.medved.demo_auth.service.NoteService;
@@ -34,7 +36,8 @@ public class NoteServiceImpl implements NoteService {
 
     @Override
     public List<NoteDto> findAll() {
-        return noteMapper.toDtos(noteRepository.findAll());
+        return List.of(new NoteDto(1L, ColorNote.GREEN, LocalDateTime.now(), "textjopa"));
+//        return noteMapper.toDtos(noteRepository.findAll());
     }
 
     @Override

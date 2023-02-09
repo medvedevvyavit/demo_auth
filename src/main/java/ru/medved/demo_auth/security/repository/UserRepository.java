@@ -6,7 +6,6 @@ import ru.medved.demo_auth.security.entity.User;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 
-    Optional<User> findByName(String username);
-    Boolean existsByName(String username);
-    Boolean existsByEmail(String email);
+    Optional<User> findByLogin(String username);
+    Boolean existsByLogin(String login);
 }

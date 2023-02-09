@@ -24,18 +24,20 @@ public class JwtUtils {
     private int jwtExpirationMs;
 
     public String generateJwtToken(Authentication authentication) {
-
         UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
+        return generateJwtToken(userPrincipal.getUsername());
+    }
 
+    public String generateJwtToken(String login) {
         return Jwts.builder()
-                .setSubject((userPrincipal.getUsername()))
+                .setSubject(login)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
                 .signWith(SignatureAlgorithm.HS512, jwtSecret)
                 .compact();
     }
 
-    public String getUserNameFromJwtToken(String token) {
+    public String getLoginFromJwtToken(String token) {
         return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getSubject();
     }
 
